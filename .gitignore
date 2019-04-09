@@ -1,0 +1,17 @@
+# Eclipse specific files #
+/bin/
+/target/
+
+# for log files #
+*.log
+
+
+# intelliJ specific files #
+.DS_Store
+.idea/
+*.iml
+*.eml
+
+# properties file #
+*.properties
+/local
