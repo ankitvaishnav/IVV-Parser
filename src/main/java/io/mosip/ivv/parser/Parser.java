@@ -12,7 +12,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class Parser {
+public class Parser implements ParserInterface {
 
     private String PERSONA_SHEET = "";
     private String SCENARIO_SHEET = "";
