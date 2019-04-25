@@ -67,7 +67,7 @@ public class Parser implements ParserInterface {
 
             /* attaching documents */
             if(data_map.get("documents") != null && !data_map.get("documents").isEmpty()){
-                ArrayList<String> docs = new ArrayList<String>();
+                ArrayList<String> docs = new ArrayList<>();
                 Pattern pattern = Pattern.compile("\\," );
                 String[] split = pattern.split(data_map.get("documents"));
                 for( int i = 0; i < split.length; i++) {
