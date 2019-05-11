@@ -67,28 +67,6 @@ public class Parser implements ParserInterface {
             iam.setCnieNumber(data_map.get("cnie"));
             iam.setRegistrationCenterId(data_map.get("registration_center_id"));
 
-            /* attaching documents */
-            if(data_map.get("documents") != null && !data_map.get("documents").isEmpty()){
-                ArrayList<String> docs = new ArrayList<>();
-                Pattern pattern = Pattern.compile("\\," );
-                String[] split = pattern.split(data_map.get("documents"));
-                for( int i = 0; i < split.length; i++) {
-                    docs.add(split[i].trim());
-                }
-                iam.setDocTypeList(docs);
-            }
-
-            /* attaching biometrics */
-            if(data_map.get("biometrics") != null && !data_map.get("biometrics").isEmpty()){
-                ArrayList<String> bioms = new ArrayList<String>();
-                Pattern pattern = Pattern.compile("\\," );
-                String[] split = pattern.split(data_map.get("biometrics"));
-                for( int i = 0; i < split.length; i++) {
-                    bioms.add(split[i].trim());
-                }
-                iam.setBioCaptureList(bioms);
-            }
-
             if(data_map.get("group_name") == null || data_map.get("group_name").isEmpty()){
                 main.setGroupName(data_map.get("group_name"));
                 main.setPersonaClass(data_map.get("persona_class"));
