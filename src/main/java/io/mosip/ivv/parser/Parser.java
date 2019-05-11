@@ -15,7 +15,8 @@ public class Parser implements ParserInterface {
 
     private String PERSONA_SHEET = "";
     private String SCENARIO_SHEET = "";
-    private String MACROS_SHEET = "";
+    private String CONFIGS_SHEET = "";
+    private String GLOBALS_SHEET = "";
     private String DOCUMENTS_SHEET = "";
     private String BIOMETRICS_SHEET = "";
     private String DOCUMENT_DATA_PATH = "";
@@ -25,7 +26,8 @@ public class Parser implements ParserInterface {
         properties = Utils.getProperties(CONFIG_FILE);
         this.PERSONA_SHEET = USER_DIR+properties.getProperty("PERSONA_SHEET");
         this.SCENARIO_SHEET = USER_DIR+properties.getProperty("SCENARIO_SHEET");
-        this.MACROS_SHEET = USER_DIR+properties.getProperty("MACROS_SHEET");
+        this.CONFIGS_SHEET = USER_DIR+properties.getProperty("CONFIGS_SHEET");
+        this.GLOBALS_SHEET = USER_DIR+properties.getProperty("GLOBALS_SHEET");
         this.DOCUMENTS_SHEET = USER_DIR+properties.getProperty("DOCUMENTS_SHEET");
         this.BIOMETRICS_SHEET = USER_DIR+properties.getProperty("BIOMETRICS_SHEET");
         this.DOCUMENT_DATA_PATH = USER_DIR+properties.getProperty("DOCUMENT_DATA_PATH");
@@ -172,17 +174,31 @@ public class Parser implements ParserInterface {
     }
 
     public HashMap<String, String> getGlobals(){
-        ArrayList data = fetchMacros();
-        HashMap<String, String> macros_map = new HashMap<>();
+        ArrayList data = fetchGlobals();
+        HashMap<String, String> globals_map = new HashMap<>();
         ObjectMapper oMapper = new ObjectMapper();
         Iterator iter = data.iterator();
         while (iter.hasNext()) {
             Object obj = iter.next();
             HashMap<String, String> data_map = oMapper.convertValue(obj, HashMap.class);
-            macros_map.put(data_map.get("key"), data_map.get("value"));
+            globals_map.put(data_map.get("key"), data_map.get("value"));
         }
-        System.out.println("total macros parsed: "+macros_map.size());
-        return macros_map;
+        System.out.println("total global entries parsed: "+globals_map.size());
+        return globals_map;
+    }
+
+    public HashMap<String, String> getConfigs(){
+        ArrayList data = fetchConfigs();
+        HashMap<String, String> configs_map = new HashMap<>();
+        ObjectMapper oMapper = new ObjectMapper();
+        Iterator iter = data.iterator();
+        while (iter.hasNext()) {
+            Object obj = iter.next();
+            HashMap<String, String> data_map = oMapper.convertValue(obj, HashMap.class);
+            configs_map.put(data_map.get("key"), data_map.get("value"));
+        }
+        System.out.println("total config entries parsed: "+configs_map.size());
+        return configs_map;
     }
 
     private ArrayList fetchData(){
@@ -201,8 +217,12 @@ public class Parser implements ParserInterface {
         return Utils.csvToList(BIOMETRICS_SHEET);
     }
 
-    private ArrayList fetchMacros(){
-        return Utils.csvToList(MACROS_SHEET);
+    private ArrayList fetchConfigs(){
+        return Utils.csvToList(CONFIGS_SHEET);
+    }
+
+    private ArrayList fetchGlobals(){
+        return Utils.csvToList(GLOBALS_SHEET);
     }
 
     private ArrayList<Scenario.Step> formatSteps(HashMap<String, String> data_map){
