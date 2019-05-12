@@ -31,7 +31,7 @@
         <dependency>
             <groupId>com.github.ankitvaishnav</groupId>
             <artifactId>IVV-Core</artifactId>
-            <version>fa4e256f39</version>
+            <version>f1e41d4018</version>
         </dependency>
     </dependencies>
 

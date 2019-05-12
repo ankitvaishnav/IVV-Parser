@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 public class Parser implements ParserInterface {
 
     private String PERSONA_SHEET = "";
+    private String RCUSER_SHEET = "";
     private String SCENARIO_SHEET = "";
     private String CONFIGS_SHEET = "";
     private String GLOBALS_SHEET = "";
@@ -25,6 +26,7 @@ public class Parser implements ParserInterface {
     public Parser(String USER_DIR, String CONFIG_FILE){
         properties = Utils.getProperties(CONFIG_FILE);
         this.PERSONA_SHEET = USER_DIR+properties.getProperty("PERSONA_SHEET");
+        this.RCUSER_SHEET = USER_DIR+properties.getProperty("RCUSER_SHEET");
         this.SCENARIO_SHEET = USER_DIR+properties.getProperty("SCENARIO_SHEET");
         this.CONFIGS_SHEET = USER_DIR+properties.getProperty("CONFIGS_SHEET");
         this.GLOBALS_SHEET = USER_DIR+properties.getProperty("GLOBALS_SHEET");
@@ -48,7 +50,7 @@ public class Parser implements ParserInterface {
             /* persona definition */
             iam.setGender(PersonaDef.GENDER.valueOf(data_map.get("gender")));
             iam.setResidenceStatus(PersonaDef.RESIDENCE_STATUS.valueOf(data_map.get("residence_status")));
-            iam.setRole(PersonaDef.ROLE.valueOf(data_map.get("APPLICANT")));
+            iam.setRole(PersonaDef.ROLE.valueOf("APPLICANT"));
 
             /* persona */
             iam.setName(data_map.get("name"));
@@ -89,6 +91,28 @@ public class Parser implements ParserInterface {
             }
         }
         return persona_list;
+    }
+
+    public ArrayList<Person> getRCUsers(){
+        ArrayList data = fetchData();
+        ArrayList<Person> person_list = new ArrayList();
+        ObjectMapper oMapper = new ObjectMapper();
+        Iterator iter = data.iterator();
+        while (iter.hasNext()) {
+            Object obj = iter.next();
+            HashMap<String, String> data_map = oMapper.convertValue(obj, HashMap.class);
+            Person iam = new Person();
+            /* persona definition */
+            iam.setRole(PersonaDef.ROLE.valueOf(data_map.get("user_type")));
+
+            /* persona */
+            iam.setName(data_map.get("name"));
+            iam.setUserid(data_map.get("user_id"));
+            iam.setPassword(data_map.get("password"));
+            iam.setCenter_id(data_map.get("center_id"));
+            person_list.add(iam);
+        }
+        return person_list;
     }
 
     public ArrayList<Scenario> getScenarios(){
@@ -201,6 +225,10 @@ public class Parser implements ParserInterface {
 
     private ArrayList fetchGlobals(){
         return Utils.csvToList(GLOBALS_SHEET);
+    }
+
+    private ArrayList fetchRCUsers(){
+        return Utils.csvToList(RCUSER_SHEET);
     }
 
     private ArrayList<Scenario.Step> formatSteps(HashMap<String, String> data_map){
