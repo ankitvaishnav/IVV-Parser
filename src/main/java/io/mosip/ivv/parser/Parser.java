@@ -149,8 +149,8 @@ public class Parser implements ParserInterface {
             pdoc.setDocTypeCode(data_map.get("doc_typ_code"));
             pdoc.setDocFileFormat(data_map.get("doc_file_format"));
             pdoc.setTags(parseTags(data_map.get("tags")));
-            pdoc.setName(data_map.get("file"));
-            pdoc.setFile(Utils.readFileAsString(DOCUMENT_DATA_PATH+data_map.get("path")));
+            pdoc.setName(data_map.get("name"));
+            pdoc.setFile(Utils.readFileAsString(DOCUMENT_DATA_PATH+data_map.get("name")));
         }
         System.out.println("total documents parsed: "+documents.size());
         return documents;
