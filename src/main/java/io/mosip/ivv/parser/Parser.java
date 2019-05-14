@@ -21,6 +21,7 @@ public class Parser implements ParserInterface {
     private String DOCUMENTS_SHEET = "";
     private String BIOMETRICS_SHEET = "";
     private String DOCUMENT_DATA_PATH = "";
+    private String BIOMETRICS_DATA_PATH = "";
     Properties properties = null;
 
     public Parser(String USER_DIR, String CONFIG_FILE){
@@ -33,6 +34,7 @@ public class Parser implements ParserInterface {
         this.DOCUMENTS_SHEET = USER_DIR+properties.getProperty("DOCUMENTS_SHEET");
         this.BIOMETRICS_SHEET = USER_DIR+properties.getProperty("BIOMETRICS_SHEET");
         this.DOCUMENT_DATA_PATH = USER_DIR+properties.getProperty("DOCUMENT_DATA_PATH");
+        this.BIOMETRICS_DATA_PATH = USER_DIR+properties.getProperty("BIOMETRICS_DATA_PATH");
     }
 
     public ArrayList<Persona> getPersonas(){
@@ -167,7 +169,7 @@ public class Parser implements ParserInterface {
             Biometrics biom = new Biometrics();
             biom.setType(Biometrics.BIOMETRIC_TYPE.valueOf(data_map.get("type")));
             biom.setCapture(Biometrics.BIOMETRIC_CAPTURE.valueOf(data_map.get("capture")));
-            byte[] raw = Utils.readFileAsByte(DOCUMENT_DATA_PATH+data_map.get("path"));
+            byte[] raw = Utils.readFileAsByte(BIOMETRICS_DATA_PATH+data_map.get("path"));
             biom.setRawImage(raw);
             biom.setBase64EncodedImage(Utils.byteToBase64(raw));
         }
