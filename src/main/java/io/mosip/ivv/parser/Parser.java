@@ -96,7 +96,7 @@ public class Parser implements ParserInterface {
     }
 
     public ArrayList<Person> getRCUsers(){
-        ArrayList data = fetchData();
+        ArrayList data = fetchRCUsers();
         ArrayList<Person> person_list = new ArrayList();
         ObjectMapper oMapper = new ObjectMapper();
         Iterator iter = data.iterator();
